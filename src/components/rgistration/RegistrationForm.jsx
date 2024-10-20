@@ -1,7 +1,7 @@
 import React from "react";
 import PrimaryHeading from "../utilities/PrimaryHeading";
 import { Link } from "react-router-dom";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 
 let initialState = {
   name: "",
@@ -13,7 +13,7 @@ const RegistrationForm = () => {
   const formik = useFormik({
     initialValues: initialState,
     onSubmit: () => {
-      console.log("Submited");
+      console.log(formik.values);
     },
   });
   return (
@@ -22,6 +22,10 @@ const RegistrationForm = () => {
       <form onSubmit={formik.handleSubmit} action="" className="w-3/5">
         <div className="mt-3">
           <input
+            id="name"
+            name="name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
             type="text"
             className="w-full py-2 px-5 text-base text-[#262626] outline-none border border-[#2D2D2D] rounded-md"
             placeholder="Enter your name"
@@ -29,6 +33,10 @@ const RegistrationForm = () => {
         </div>
         <div className="mt-3">
           <input
+            id="email"
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
             type="email"
             className="w-full py-2 px-5 text-base text-[#262626] outline-none border border-[#2D2D2D] rounded-md"
             placeholder="Enter your email"
@@ -36,6 +44,10 @@ const RegistrationForm = () => {
         </div>
         <div className="mt-3">
           <input
+            id="password"
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
             type="password"
             className="w-full py-2 px-5 text-base text-[#262626] outline-none border border-[#2D2D2D] rounded-md"
             placeholder="Enter your password"
