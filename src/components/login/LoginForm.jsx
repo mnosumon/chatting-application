@@ -2,18 +2,17 @@ import React from "react";
 import PrimaryHeading from "../utilities/PrimaryHeading";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import { SignUpFormValidation } from "../../validation/signUpFormValidation";
+import { SignInFormValidation } from "../../validation/signInFormValidation";
 
 let initialState = {
-  name: "",
   email: "",
   password: "",
 };
 
-const RegistrationForm = () => {
+const LoginForm = () => {
   const formik = useFormik({
     initialValues: initialState,
-    validationSchema: SignUpFormValidation,
+    validationSchema: SignInFormValidation,
     onSubmit: () => {
       console.log();
     },
@@ -25,23 +24,6 @@ const RegistrationForm = () => {
     <div>
       <PrimaryHeading content="Registration form" />
       <form onSubmit={formik.handleSubmit} action="" className="w-3/5">
-        <div className="mt-3">
-          <input
-            id="name"
-            name="name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            onBlur={formik.handleBlur}
-            type="text"
-            className="w-full py-2 px-5 text-base text-[#262626] outline-none border border-[#2D2D2D] rounded-md"
-            placeholder="Enter your name"
-          />
-          <div className="mt-1">
-            {errors.name && touched.name ? (
-              <span className="text-red-700 pl-4">{errors.name}</span>
-            ) : null}
-          </div>
-        </div>
         <div className="mt-3">
           <input
             id="email"
@@ -81,15 +63,15 @@ const RegistrationForm = () => {
             type="submit"
             className="text-base font-bold py-3 bg-orange-500 w-full rounded-md"
           >
-            Sign Up
+            Sign in
           </button>
         </div>
       </form>
       <div className="mt-4">
         <p>
-          Yuo have already sign up{" "}
-          <Link to="/login" className="text-blue-700 cursor-pointer">
-            Sign in
+          Yuo have no account{" "}
+          <Link to="/registration" className="text-blue-700 cursor-pointer">
+            Sign up
           </Link>
         </p>
       </div>
@@ -97,4 +79,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default LoginForm;

@@ -9,5 +9,9 @@ export const SignUpFormValidation = Yup.object({
     .required("Please enter your email"),
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/,
+      "please at least one special chareter"
+    )
     .required("Please enter your password"),
 });
