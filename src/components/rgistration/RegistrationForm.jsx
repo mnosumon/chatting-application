@@ -1,12 +1,25 @@
 import React from "react";
 import PrimaryHeading from "../utilities/PrimaryHeading";
 import { Link } from "react-router-dom";
+import { Formik, useFormik } from "formik";
+
+let initialState = {
+  name: "",
+  email: "",
+  password: "",
+};
 
 const RegistrationForm = () => {
+  const formik = useFormik({
+    initialValues: initialState,
+    onSubmit: () => {
+      console.log("Submited");
+    },
+  });
   return (
     <div>
       <PrimaryHeading content="Registration form" />
-      <form action="" className="w-3/5">
+      <form onSubmit={formik.handleSubmit} action="" className="w-3/5">
         <div className="mt-3">
           <input
             type="text"
