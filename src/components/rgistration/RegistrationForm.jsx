@@ -3,6 +3,7 @@ import PrimaryHeading from "../utilities/PrimaryHeading";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpFormValidation } from "../../validation/signUpFormValidation";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 let initialState = {
   name: "",
@@ -11,14 +12,27 @@ let initialState = {
 };
 
 const RegistrationForm = () => {
+  const auth = getAuth();
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: SignUpFormValidation,
     onSubmit: () => {
-      console.log();
+      signUpAuth();
     },
   });
-  console.log(formik.touched);
+  const signUpAuth = () => {
+    createUserWithEmailAndPassword(
+      auth,
+      formik.values.email,
+      formik.values.password
+    )
+      .then((e) => {
+        console.log(e);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const { errors, touched } = formik;
 
   return (
