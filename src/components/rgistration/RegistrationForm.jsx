@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PrimaryHeading from "../utilities/PrimaryHeading";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpFormValidation } from "../../validation/signUpFormValidation";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { BeatLoader } from "react-spinners";
 
 let initialState = {
   name: "",
@@ -11,7 +12,8 @@ let initialState = {
   password: "",
 };
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ toast }) => {
+  const [loader, setLoader] = useState(false);
   const auth = getAuth();
   const formik = useFormik({
     initialValues: initialState,
@@ -21,16 +23,39 @@ const RegistrationForm = () => {
     },
   });
   const signUpAuth = () => {
+    setLoader(true);
     createUserWithEmailAndPassword(
       auth,
       formik.values.email,
       formik.values.password
     )
-      .then((e) => {
-        console.log(e);
+      .then(() => {
+        setLoader(false);
+        toast.success("Sign up successful", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       })
       .catch((error) => {
-        console.log(error);
+        setLoader(false);
+        if (error.message.includes("auth/email-already-in-use")) {
+          toast.error("email already used", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       });
   };
   const { errors, touched } = formik;
@@ -92,10 +117,11 @@ const RegistrationForm = () => {
         </div>
         <div className="mt-4">
           <button
+            disabled={loader}
             type="submit"
             className="text-base font-bold py-3 bg-orange-500 w-full rounded-md"
           >
-            Sign Up
+            {loader ? <BeatLoader color="#fff" /> : "Sign Up"}
           </button>
         </div>
       </form>
