@@ -3,7 +3,11 @@ import PrimaryHeading from "../utilities/PrimaryHeading";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpFormValidation } from "../../validation/signUpFormValidation";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { BeatLoader } from "react-spinners";
 
 let initialState = {
@@ -30,16 +34,18 @@ const RegistrationForm = ({ toast }) => {
       formik.values.password
     )
       .then(() => {
-        setLoader(false);
-        toast.success("Sign up successful", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        sendEmailVerification(auth.currentUser).then(() => {
+          setLoader(false);
+          toast.success("Sign up successful", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         });
       })
       .catch((error) => {
