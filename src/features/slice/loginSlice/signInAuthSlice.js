@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: JSON.parse(localStorage.getItem("user")),
+  value: JSON.parse(localStorage.getItem("user")) || null,
 };
 
 export const signAuthSlice = createSlice({
@@ -11,7 +11,9 @@ export const signAuthSlice = createSlice({
     signInAuth: (state, actions) => {
       state.value = actions.payload;
     },
-    logoutAuth: (state) => {},
+    logoutAuth: (state) => {
+      state.value = null;
+    },
   },
 });
 
