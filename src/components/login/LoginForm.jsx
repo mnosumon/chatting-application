@@ -35,9 +35,6 @@ const LoginForm = ({ toast }) => {
       .then((item) => {
         setLoader(false);
         if (item.user.emailVerified) {
-          dispatch(signInAuth(item.user));
-          navigate("/");
-          localStorage.setItem("user", JSON.stringify(item.user));
           toast.success("Sign in successful", {
             position: "top-right",
             autoClose: 2000,
@@ -48,6 +45,9 @@ const LoginForm = ({ toast }) => {
             progress: undefined,
             theme: "light",
           });
+          dispatch(signInAuth(item.user));
+          navigate("/");
+          localStorage.setItem("user", JSON.stringify(item.user));
         } else {
           toast.error("Your email is not verified", {
             position: "top-right",

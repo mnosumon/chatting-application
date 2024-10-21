@@ -13,6 +13,7 @@ export const signAuthSlice = createSlice({
     },
     logoutAuth: (state) => {
       state.value = null;
+      localStorage.removeItem("user");
     },
   },
 });
