@@ -1,23 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import PrimaryHeading from "../utilities/PrimaryHeading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignInFormValidation } from "../../validation/signInFormValidation";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { BeatLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { signInAuth } from "../../features/slice/loginSlice/signInAuthSlice";
 
 let initialState = {
   email: "",
   password: "",
 };
 
-const LoginForm = () => {
+const LoginForm = ({ toast }) => {
+  const [loader, setLoader] = useState(false);
+  const auth = getAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: SignInFormValidation,
     onSubmit: () => {
-      console.log();
+      signInAuthUser();
     },
   });
-  console.log(formik.touched);
+  const signInAuthUser = () => {
+    setLoader(true);
+    signInWithEmailAndPassword(
+      auth,
+      formik.values.email,
+      formik.values.password
+    )
+      .then((item) => {
+        setLoader(false);
+        if (item.user.emailVerified) {
+          dispatch(signInAuth(item.user));
+          navigate("/");
+          localStorage.setItem("user", JSON.stringify(item.user));
+          toast.success("Sign in successful", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else {
+          toast.error("Your email is not verified", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      })
+      .catch((error) => {});
+  };
   const { errors, touched } = formik;
 
   return (
@@ -60,10 +105,11 @@ const LoginForm = () => {
         </div>
         <div className="mt-4">
           <button
+            disabled={loader}
             type="submit"
             className="text-base font-bold py-3 bg-orange-500 w-full rounded-md"
           >
-            Sign in
+            {loader ? <BeatLoader color="#fff" /> : "Sign in"}
           </button>
         </div>
       </form>

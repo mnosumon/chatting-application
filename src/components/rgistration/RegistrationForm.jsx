@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PrimaryHeading from "../utilities/PrimaryHeading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpFormValidation } from "../../validation/signUpFormValidation";
 import {
@@ -19,6 +19,7 @@ let initialState = {
 const RegistrationForm = ({ toast }) => {
   const [loader, setLoader] = useState(false);
   const auth = getAuth();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: SignUpFormValidation,
@@ -36,7 +37,7 @@ const RegistrationForm = ({ toast }) => {
       .then(() => {
         sendEmailVerification(auth.currentUser).then(() => {
           setLoader(false);
-          toast.success("Sign up successful", {
+          toast.success("Verify your email", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -46,6 +47,9 @@ const RegistrationForm = ({ toast }) => {
             progress: undefined,
             theme: "light",
           });
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
         });
       })
       .catch((error) => {
