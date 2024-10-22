@@ -11,7 +11,7 @@ const Home = () => {
           <div className="">
             <AllUser />
           </div>
-          <div className="">
+          <div className="flex justify-between mr-10">
             <div className="">
               <FriendRequest />
             </div>
