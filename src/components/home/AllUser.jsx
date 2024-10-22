@@ -3,7 +3,7 @@ import { FriendsIcon } from "../../assets/svg/FriendsIcon";
 
 const AllUser = () => {
   return (
-    <div className="bg-[#FBFBFB] px-4 pt-8 border shadow-md">
+    <div className="bg-[#FBFBFB] px-4 pt-12 border shadow-md rounded-md">
       <h3 className="text-xl font-bold font-sans mb-5">All users</h3>
       <div className="">
         <div className="flex justify-between items-center mb-3">
