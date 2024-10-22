@@ -11,6 +11,8 @@ import Login from "./pages/login/Login";
 import RouteLayout from "./components/routeLayout/RouteLayout";
 import LoginUser from "./privetRoute/LoginUser";
 import NotLoginUser from "./privetRoute/NotLoginUser";
+import Message from "./pages/message/Message";
+import Profile from "./pages/profile/Profile";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -19,6 +21,8 @@ const App = () => {
         <Route element={<LoginUser />}>
           <Route element={<RouteLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/message" element={<Message />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
         <Route element={<NotLoginUser />}>

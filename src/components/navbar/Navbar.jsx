@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoutAuth } from "../../features/slice/loginSlice/signInAuthSlice";
 import { ProfileIcon } from "../../assets/svg/ProfileIcon";
 import { MessageIcon } from "../../assets/svg/MessageIcon";
@@ -28,12 +28,18 @@ const Navbar = () => {
           </h2>
         </div>
         <div className="flex items-center gap-x-4">
-          <div className="text-[#FFF] w-12 h-12 bg-[#6CD0FB] rounded-full flex items-center justify-center cursor-pointer">
+          <Link
+            to="/"
+            className="text-[#FFF] w-12 h-12 bg-[#6CD0FB] rounded-full flex items-center justify-center cursor-pointer"
+          >
             <ProfileIcon />
-          </div>
-          <div className="text-[#FFF] w-12 h-12 bg-[#6CD0FB] rounded-full flex items-center justify-center cursor-pointer">
+          </Link>
+          <Link
+            to="/message"
+            className="text-[#FFF] w-12 h-12 bg-[#6CD0FB] rounded-full flex items-center justify-center cursor-pointer"
+          >
             <MessageIcon />
-          </div>
+          </Link>
         </div>
         <div className="flex items-center gap-x-2">
           <div className="text-[#4A81D3]">

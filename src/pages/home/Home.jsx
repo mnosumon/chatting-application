@@ -1,12 +1,25 @@
 import React from "react";
-import Navbar from "../../components/navbar/Navbar";
+import Message from "../message/Message";
+import AllUser from "../../components/home/AllUser";
+import FriendRequest from "../../components/home/FriendRequest";
+import Friends from "../../components/home/Friends";
 
 const Home = () => {
   return (
     <>
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-4/5">
-          <Navbar />
+      <div className="w-full">
+        <div className="grid grid-cols-[1fr,3fr]">
+          <div className="">
+            <AllUser />
+          </div>
+          <div className="">
+            <div className="">
+              <FriendRequest />
+            </div>
+            <div className="">
+              <Friends />
+            </div>
+          </div>
         </div>
       </div>
     </>
