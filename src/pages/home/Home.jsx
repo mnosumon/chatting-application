@@ -1,5 +1,4 @@
 import React from "react";
-import Message from "../message/Message";
 import AllUser from "../../components/home/AllUser";
 import FriendRequest from "../../components/home/FriendRequest";
 import Friends from "../../components/home/Friends";
