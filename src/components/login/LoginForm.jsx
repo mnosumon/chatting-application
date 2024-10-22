@@ -33,23 +33,25 @@ const LoginForm = ({ toast }) => {
       formik.values.password
     )
       .then((item) => {
-        setLoader(false);
         if (item.user.emailVerified) {
           toast.success("Sign in successful", {
             position: "top-right",
             autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
           });
           dispatch(signInAuth(item.user));
-          navigate("/");
           localStorage.setItem("user", JSON.stringify(item.user));
+          setTimeout(() => navigate("/"), 2000);
         } else {
           toast.error("Your email is not verified", {
+            position: "top-right",
+            autoClose: 2000,
+          });
+          setLoader(false);
+        }
+      })
+      .catch((error) => {
+        if (error.message.includes("auth/invalid-credential")) {
+          toast.error("Password or email incorrect", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -60,8 +62,8 @@ const LoginForm = ({ toast }) => {
             theme: "light",
           });
         }
-      })
-      .catch((error) => {});
+        setLoader(false);
+      });
   };
   const { errors, touched } = formik;
 
