@@ -1,11 +1,14 @@
 import React from "react";
-import LoginUser from "../../privetRoute/LoginUser";
+import Navbar from "../../components/navbar/Navbar";
 
 const Home = () => {
   return (
     <>
-      <div>Home</div>
-      <div className=""></div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-4/5">
+          <Navbar />
+        </div>
+      </div>
     </>
   );
 };
