@@ -1,5 +1,6 @@
 import React from "react";
 import Friends from "../../components/home/Friends";
+import SendMessage from "../../components/message/SendMessage";
 
 const Message = () => {
   return (
@@ -8,7 +9,9 @@ const Message = () => {
         <div className="">
           <Friends />
         </div>
-        <div className=""></div>
+        <div className="">
+          <SendMessage />
+        </div>
       </div>
     </div>
   );
