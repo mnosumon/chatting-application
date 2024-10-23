@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logoutAuth } from "../../features/slice/loginSlice/signInAuthSlice";
@@ -7,8 +7,10 @@ import { MessageIcon } from "../../assets/svg/MessageIcon";
 import { LogoutIcon } from "../../assets/svg/LogoutIcon";
 import { CameraIcon } from "../../assets/svg/CameraIcon";
 import { getAuth, signOut } from "firebase/auth";
+import Modal from "./modal/Modal";
 
 const Navbar = () => {
+  const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -26,13 +28,21 @@ const Navbar = () => {
       });
   };
   return (
-    <nav className="bg-[#000] w-full py-2">
+    <nav className="bg-[#000] w-full py-2 relative">
       <div className="w-4/5 flex justify-between items-center mx-auto">
         <div className="flex gap-x-3 items-center">
           <div className="w-20 h-20 rounded-full bg-white relative">
-            <div className="text-[#2D2D2D] absolute bottom-0 right-0 w-7 h-7 rounded-full bg-red-600 flex items-center justify-center cursor-pointer">
+            <div
+              onClick={() => setModalShow(!modalShow)}
+              className="text-[#2D2D2D] absolute bottom-0 right-0 w-7 h-7 rounded-full bg-red-600 flex items-center justify-center cursor-pointer"
+            >
               <CameraIcon />
             </div>
+            {modalShow && (
+              <div className="fixed">
+                <Modal setModalShow={setModalShow} />
+              </div>
+            )}
           </div>
           <h2 className="text-xl text-white font-bold font-serif">
             Md Nuruddin Osman
