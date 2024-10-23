@@ -8,6 +8,7 @@ import { LogoutIcon } from "../../assets/svg/LogoutIcon";
 import { CameraIcon } from "../../assets/svg/CameraIcon";
 import { getAuth, signOut } from "firebase/auth";
 import Modal from "./modal/Modal";
+import { createPortal } from "react-dom";
 
 const Navbar = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -33,15 +34,14 @@ const Navbar = () => {
         <div className="flex gap-x-3 items-center">
           <div className="w-20 h-20 rounded-full bg-white relative">
             <div
-              onClick={() => setModalShow(!modalShow)}
+              onClick={() => setModalShow(true)}
               className="text-[#2D2D2D] absolute bottom-0 right-0 w-7 h-7 rounded-full bg-red-600 flex items-center justify-center cursor-pointer"
             >
               <CameraIcon />
             </div>
-            {modalShow && (
-              <div className="fixed">
-                <Modal setModalShow={setModalShow} />
-              </div>
+            {createPortal(
+              modalShow && <Modal setModalShow={setModalShow} />,
+              document.body
             )}
           </div>
           <h2 className="text-xl text-white font-bold font-serif">
