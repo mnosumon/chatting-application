@@ -16,7 +16,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
-  console.log(location.pathname);
 
   const handleLogout = () => {
     signOut(auth)

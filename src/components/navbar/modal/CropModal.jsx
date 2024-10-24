@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { Cropper } from "react-cropper";
 
-const CropModal = ({ cropperRef, image, setImage }) => {
+const CropModal = ({ cropperRef, image, setImage, getCropData }) => {
   return (
     <div className="fixed w-full h-screen flex items-center justify-center ">
       <div className="w-2/5 bg-white p-3 relative rounded-md">
@@ -38,7 +38,10 @@ const CropModal = ({ cropperRef, image, setImage }) => {
           </div>
         </div>
         <div className="mt-1">
-          <button className="w-full text-lg py-2 bg-orange-600 rounded-md">
+          <button
+            onClick={getCropData}
+            className="w-full text-lg py-2 bg-orange-600 rounded-md"
+          >
             Upload Photo
           </button>
         </div>

@@ -3,12 +3,17 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { CiImageOn } from "react-icons/ci";
 import "cropperjs/dist/cropper.css";
 import CropModal from "./CropModal";
+import { getStorage, ref, uploadString } from "firebase/storage";
+import { useSelector } from "react-redux";
 
 const Modal = ({ setModalShow }) => {
   const fileRef = useRef();
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState("");
   const cropperRef = useRef();
+  const storage = getStorage();
+  const user = useSelector((state) => state.user.value);
+  const storageRef = ref(storage, user.uid);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -26,6 +31,20 @@ const Modal = ({ setModalShow }) => {
 
     reader.readAsDataURL(files[0]);
   };
+
+  const getCropData = () => {
+    if (typeof cropperRef.current?.cropper !== "undefined") {
+      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+      const dataStore = uploadString(storageRef, dataStore, "data_url")
+        .then((snapshot) => {
+          console.log(snapshot);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full h-screen bg-[#63571096] flex items-center justify-center ">
       <div className="w-2/5 bg-white p-3 relative rounded-md">
@@ -63,7 +82,12 @@ const Modal = ({ setModalShow }) => {
         </div>
       </div>
       {image && (
-        <CropModal cropperRef={cropperRef} image={image} setImage={setImage} />
+        <CropModal
+          cropperRef={cropperRef}
+          image={image}
+          setImage={setImage}
+          getCropData={getCropData}
+        />
       )}
     </div>
   );
