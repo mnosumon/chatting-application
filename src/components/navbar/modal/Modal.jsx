@@ -3,17 +3,26 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { CiImageOn } from "react-icons/ci";
 import "cropperjs/dist/cropper.css";
 import CropModal from "./CropModal";
-import { getStorage, ref, uploadString } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadString,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 import { useSelector } from "react-redux";
+import { getAuth, updateProfile } from "firebase/auth";
 
 const Modal = ({ setModalShow }) => {
+  const user = useSelector((state) => state.user.value);
   const fileRef = useRef();
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState("");
   const cropperRef = useRef();
   const storage = getStorage();
-  const user = useSelector((state) => state.user.value);
   const storageRef = ref(storage, user.uid);
+  const auth = getAuth();
+  // const uploadTask = uploadBytesResumable(storageRef, file);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -39,7 +48,9 @@ const Modal = ({ setModalShow }) => {
         .getCroppedCanvas()
         .toDataURL();
       uploadString(storageRef, message4, "data_url").then((snapshot) => {
-        console.log(snapshot.metadata.contentType);
+        getDownloadURL(storageRef).then((downloadURL) => {
+          console.log(downloadURL);
+        });
       });
     }
   };
