@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logoutAuth } from "../../features/slice/loginSlice/signInAuthSlice";
 import { ProfileIcon } from "../../assets/svg/ProfileIcon";
@@ -16,6 +16,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const auth = getAuth();
+  const user = useSelector((state) => state.user.value);
 
   const handleLogout = () => {
     signOut(auth)
@@ -31,7 +32,12 @@ const Navbar = () => {
     <nav className="bg-[#000] w-full py-2 relative">
       <div className="w-4/5 flex justify-between items-center mx-auto">
         <div className="flex gap-x-3 items-center">
-          <div className="w-20 h-20 rounded-full bg-white relative">
+          <div className="w-20 h-20 rounded-full overflow-hidden relative">
+            <img
+              className="w-full h-full object-cover"
+              src={user.photoURL}
+              alt="Profile photo"
+            />
             <div
               onClick={() => setModalShow(true)}
               className="text-[#2D2D2D] absolute bottom-0 right-0 w-7 h-7 rounded-full bg-red-600 flex items-center justify-center cursor-pointer"
