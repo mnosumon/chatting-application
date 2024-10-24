@@ -35,13 +35,12 @@ const Modal = ({ setModalShow }) => {
   const getCropData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-      const dataStore = uploadString(storageRef, dataStore, "data_url")
-        .then((snapshot) => {
-          console.log(snapshot);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      const message4 = cropperRef.current?.cropper
+        .getCroppedCanvas()
+        .toDataURL();
+      uploadString(storageRef, message4, "data_url").then((snapshot) => {
+        console.log(snapshot.metadata.contentType);
+      });
     }
   };
 
