@@ -7,8 +7,10 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { BeatLoader } from "react-spinners";
+import { getDatabase, ref, set } from "firebase/database";
 
 let initialState = {
   name: "",
@@ -19,6 +21,7 @@ let initialState = {
 const RegistrationForm = ({ toast }) => {
   const [loader, setLoader] = useState(false);
   const auth = getAuth();
+  const db = getDatabase();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialState,
@@ -34,22 +37,33 @@ const RegistrationForm = ({ toast }) => {
       formik.values.email,
       formik.values.password
     )
-      .then(() => {
-        sendEmailVerification(auth.currentUser).then(() => {
-          setLoader(false);
-          toast.success("Verify your email", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
+      .then(({ user }) => {
+        updateProfile(auth.currentUser, {
+          displayName: formik.values.name,
+        }).then(() => {
+          sendEmailVerification(auth.currentUser)
+            .then(() => {
+              setLoader(false);
+              toast.success("Verify your email", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+              setTimeout(() => {
+                navigate("/login");
+              }, 2000);
+            })
+            .then(() => {
+              set(ref(db, "users/" + user.uid), {
+                name: user.displayName,
+                email: user.email,
+              });
+            });
         });
       })
       .catch((error) => {
