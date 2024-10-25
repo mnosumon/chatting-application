@@ -51,7 +51,7 @@ const Navbar = () => {
             )}
           </div>
           <h2 className="text-xl text-white font-bold font-serif">
-            Md Nuruddin Osman
+            {user.displayName}
           </h2>
         </div>
         <div className="flex items-center gap-x-4">
