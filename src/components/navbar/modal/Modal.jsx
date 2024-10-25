@@ -62,6 +62,7 @@ const Modal = ({ setModalShow }) => {
                 "user",
                 JSON.stringify({ ...user, photoURL: downloadURL })
               );
+              setModalShow(false);
             })
             .catch((error) => {
               console.log(error.message);

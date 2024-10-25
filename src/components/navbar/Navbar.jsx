@@ -9,6 +9,7 @@ import { CameraIcon } from "../../assets/svg/CameraIcon";
 import { getAuth, signOut } from "firebase/auth";
 import Modal from "./modal/Modal";
 import { createPortal } from "react-dom";
+import AvaterImg from "../../assets/image/avater.jpg";
 
 const Navbar = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -32,10 +33,10 @@ const Navbar = () => {
     <nav className="bg-[#000] w-full py-2 relative">
       <div className="w-4/5 flex justify-between items-center mx-auto">
         <div className="flex gap-x-3 items-center">
-          <div className="w-20 h-20 rounded-full overflow-hidden relative">
+          <div className="w-20 h-20 rounded-full  relative">
             <img
-              className="w-full h-full object-cover"
-              src={user.photoURL}
+              className="w-full h-full rounded-full object-cover"
+              src={user.photoURL || AvaterImg}
               alt="Profile photo"
             />
             <div

@@ -5,8 +5,9 @@ import { useFormik } from "formik";
 import { SignInFormValidation } from "../../validation/signInFormValidation";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { BeatLoader } from "react-spinners";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signInAuth } from "../../features/slice/loginSlice/signInAuthSlice";
+import { getDatabase, ref, set } from "firebase/database";
 
 let initialState = {
   email: "",
@@ -15,9 +16,11 @@ let initialState = {
 
 const LoginForm = ({ toast }) => {
   const [loader, setLoader] = useState(false);
+  const user = useSelector((state) => state.user.value);
   const auth = getAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const db = getDatabase();
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: SignInFormValidation,
@@ -33,6 +36,8 @@ const LoginForm = ({ toast }) => {
       formik.values.password
     )
       .then((item) => {
+        const user = item.user;
+
         if (item.user.emailVerified) {
           toast.success("Sign in successful", {
             position: "top-right",
@@ -41,6 +46,11 @@ const LoginForm = ({ toast }) => {
           dispatch(signInAuth(item.user));
           localStorage.setItem("user", JSON.stringify(item.user));
           setTimeout(() => navigate("/"), 2000);
+
+          set(ref(db, "users/" + user.uid), {
+            name: "",
+            photoURl: user.photoURL,
+          });
         } else {
           toast.error("Your email is not verified", {
             position: "top-right",
