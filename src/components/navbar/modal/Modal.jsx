@@ -16,11 +16,11 @@ import { signInAuth } from "../../../features/slice/loginSlice/signInAuthSlice";
 
 const Modal = ({ setModalShow }) => {
   const user = useSelector((state) => state.user.value);
-  console.log(user.photoURL);
+  const [loader, setLoader] = useState(false);
+  const [cropData, setCropData] = useState("");
 
   const fileRef = useRef();
   const [image, setImage] = useState();
-  const [cropData, setCropData] = useState("");
   const cropperRef = useRef();
   const storage = getStorage();
   const storageRef = ref(storage, user.uid);
@@ -51,6 +51,7 @@ const Modal = ({ setModalShow }) => {
       const message4 = cropperRef.current?.cropper
         .getCroppedCanvas()
         .toDataURL();
+      setLoader(true);
       uploadString(storageRef, message4, "data_url").then((snapshot) => {
         getDownloadURL(storageRef).then((downloadURL) => {
           updateProfile(auth.currentUser, {
@@ -63,6 +64,7 @@ const Modal = ({ setModalShow }) => {
                 JSON.stringify({ ...user, photoURL: downloadURL })
               );
               setModalShow(false);
+              setLoader(false);
             })
             .catch((error) => {
               console.log(error.message);
@@ -114,6 +116,7 @@ const Modal = ({ setModalShow }) => {
           image={image}
           setImage={setImage}
           getCropData={getCropData}
+          loader={loader}
         />
       )}
     </div>

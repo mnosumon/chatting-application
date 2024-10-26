@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { Cropper } from "react-cropper";
+import { FadeLoader } from "react-spinners";
 
-const CropModal = ({ cropperRef, image, setImage, getCropData }) => {
+const CropModal = ({ cropperRef, image, setImage, getCropData, loader }) => {
   return (
     <div className="fixed w-full h-screen flex items-center justify-center ">
       <div className="w-2/5 bg-white p-3 relative rounded-md">
@@ -37,12 +38,26 @@ const CropModal = ({ cropperRef, image, setImage, getCropData }) => {
             />
           </div>
         </div>
-        <div className="mt-1">
+        <div className="mt-1 h-12 relative">
           <button
             onClick={getCropData}
-            className="w-full text-lg py-2 bg-orange-600 rounded-md"
+            className="w-full h-full text-lg bg-orange-600 rounded-md"
           >
-            Upload Photo
+            {loader ? (
+              <FadeLoader
+                height={14}
+                margin={-5}
+                width={4}
+                color="#FFF"
+                cssOverride={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "48%",
+                }}
+              />
+            ) : (
+              "Upload Photo"
+            )}
           </button>
         </div>
       </div>
