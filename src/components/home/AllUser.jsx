@@ -14,8 +14,8 @@ const AllUser = () => {
   useEffect(() => {
     const starCountRef = ref(db, "users/");
     onValue(starCountRef, (snapshot) => {
+      const users = [];
       snapshot.forEach((item) => {
-        const users = [];
         if (item.key !== allUser.uid) {
           getDownloadURL(Ref(storage, item.key))
             .then((downloadURL) => {
@@ -44,13 +44,16 @@ const AllUser = () => {
       <h3 className="text-xl font-bold font-sans mb-5">All users</h3>
 
       {user?.map((item, index) => (
-        <div className="flex justify-between items-center my-4">
+        <div key={index} className="flex justify-between items-center my-4">
           <div className="flex gap-5 items-center">
             <div className="w-12 h-12 rounded-full overflow-hidden">
-              <img src={item.photoURL || AvaterImg} />
+              <img
+                className="w-full h-full rounded-full object-cover"
+                src={item.photoURL || AvaterImg}
+              />
             </div>
             <div className="">
-              <h3> name {item.name}</h3>
+              <h3> {item.name}</h3>
             </div>
           </div>
           <div className="">
@@ -58,24 +61,6 @@ const AllUser = () => {
           </div>
         </div>
       ))}
-
-      {/* {user?.map((item, index) => (
-        <div key={index} className="flex justify-between items-center mb-3">
-          <div className="flex gap-x-2 items-center">
-            <div className="w-10 h-10 rounded-full ">
-              <img
-                className="w-full h-full rounded-full object-cover"
-                src={item.photoURL}
-                alt="profile photo"
-              />
-            </div>
-            <h4 className="text-lg font-sans">{item.name}</h4>
-          </div>
-          <div className="text-[#292D32]">
-            <FriendsIcon />
-          </div>
-        </div>
-      ))} */}
     </div>
   );
 };
