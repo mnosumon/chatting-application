@@ -15,7 +15,6 @@ import AvaterImg from "../../assets/image/avater.jpg";
 const AllUser = () => {
   const [allUser, setAllUser] = useState([]);
   const [frindList, setFrindList] = useState([]);
-  const [cancelReq, setCancelReq] = useState(false);
   const [frindCancelReq, setFrindCancelReq] = useState([]);
   const user = useSelector((state) => state.user.value);
   const db = getDatabase();
@@ -73,7 +72,7 @@ const AllUser = () => {
       setFrindList(friendsListArr);
       setFrindCancelReq(friendsReqCancelArr);
     });
-  }, []);
+  }, [db]);
 
   const handleCancelReq = (data) => {
     const reqToCancel = frindCancelReq.find(
