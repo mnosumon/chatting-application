@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  push,
+  remove,
+  set,
+} from "firebase/database";
 import { useSelector } from "react-redux";
 import AvaterImg from "../../assets/image/avater.jpg";
 
@@ -21,6 +28,14 @@ const FriendRequest = () => {
       setFriendRequestAbleList(friendRequestAbleArr);
     });
   }, [db, user.uid]);
+
+  const handleAccept = (data) => {
+    set(push(ref(db, "friends")), {
+      ...data,
+    }).then(() => {
+      remove(ref(db, "requestableFriends/" + data.id));
+    });
+  };
   return (
     <div className="mt-5">
       <div className="bg-[#FBFBFB] px-4 pt-8 border shadow-md rounded-md">
@@ -37,7 +52,10 @@ const FriendRequest = () => {
               <h4 className="text-lg font-sans">{item.senderName}</h4>
             </div>
             <div className="flex items-center gap-x-2">
-              <button className="text-base font-sans py-1 px-3 bg-[#4A81D3] text-white rounded-md">
+              <button
+                onClick={() => handleAccept(item)}
+                className="text-base font-sans py-1 px-3 bg-[#4A81D3] text-white rounded-md"
+              >
                 Accept
               </button>
               <button className="text-base font-sans py-1 px-3 bg-[#D34A4A] text-white rounded-md">
