@@ -15,6 +15,7 @@ import AvaterImg from "../../assets/image/avater.jpg";
 const AllUser = () => {
   const [allUser, setAllUser] = useState([]);
   const [frindList, setFrindList] = useState([]);
+  const [friends, setFriends] = useState([]);
   const [frindCancelReq, setFrindCancelReq] = useState([]);
   const user = useSelector((state) => state.user.value);
   const db = getDatabase();
@@ -73,6 +74,16 @@ const AllUser = () => {
       setFrindCancelReq(friendsReqCancelArr);
     });
   }, [db]);
+  useEffect(() => {
+    const starCountRef = ref(db, "friends/");
+    onValue(starCountRef, (snapshot) => {
+      const friendsArr = [];
+      snapshot.forEach((item) => {
+        friendsArr.push(item.val().senderID + item.val().recieverID);
+      });
+      setFriends(friendsArr);
+    });
+  }, [db]);
 
   const handleCancelReq = (data) => {
     const reqToCancel = frindCancelReq.find(
@@ -102,8 +113,13 @@ const AllUser = () => {
             </div>
           </div>
           <div className="">
-            {frindList.includes(item.id + user.uid) ||
-            frindList.includes(user.uid + item.id) ? (
+            {friends.includes(item.id + user.uid) ||
+            friends.includes(user.uid + item.id) ? (
+              <div>
+                <button>Friend</button>
+              </div>
+            ) : frindList.includes(item.id + user.uid) ||
+              frindList.includes(user.uid + item.id) ? (
               <div onClick={() => handleCancelReq(item)}>
                 <button>Cancel Requset</button>
               </div>

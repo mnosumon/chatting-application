@@ -36,6 +36,9 @@ const FriendRequest = () => {
       remove(ref(db, "requestableFriends/" + data.id));
     });
   };
+  const handleReject = (data) => {
+    remove(ref(db, "requestableFriends/" + data.id));
+  };
   return (
     <div className="mt-5">
       <div className="bg-[#FBFBFB] px-4 pt-8 border shadow-md rounded-md">
@@ -58,7 +61,10 @@ const FriendRequest = () => {
               >
                 Accept
               </button>
-              <button className="text-base font-sans py-1 px-3 bg-[#D34A4A] text-white rounded-md">
+              <button
+                onClick={() => handleReject(item)}
+                className="text-base font-sans py-1 px-3 bg-[#D34A4A] text-white rounded-md"
+              >
                 Reject
               </button>
             </div>
