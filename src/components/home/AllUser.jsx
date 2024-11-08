@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FriendsIcon } from "../../assets/svg/FriendsIcon";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { getStorage, ref as Ref, getDownloadURL } from "firebase/storage";
 import { useSelector } from "react-redux";
 import AvaterImg from "../../assets/image/avater.jpg";
 
 const AllUser = () => {
-  const [user, setUser] = useState([]);
-  const allUser = useSelector((state) => state.user.value);
+  const [allUser, setAllUser] = useState([]);
+  const [cancelReq, setCancelReq] = useState(false);
+  const user = useSelector((state) => state.user.value);
   const db = getDatabase();
   const storage = getStorage();
 
@@ -16,7 +17,7 @@ const AllUser = () => {
     onValue(starCountRef, (snapshot) => {
       const users = [];
       snapshot.forEach((item) => {
-        if (item.key !== allUser.uid) {
+        if (item.key !== user.uid) {
           getDownloadURL(Ref(storage, item.key))
             .then((downloadURL) => {
               users.push({
@@ -33,17 +34,29 @@ const AllUser = () => {
               });
             })
             .then(() => {
-              setUser([...users]);
+              setAllUser([...users]);
             });
         }
       });
     });
   }, [db, allUser.uid, storage]);
+
+  const handleFriendReqSent = (data) => {
+    set(push(ref(db, "requestableFriends/")), {
+      senderName: user.displayName,
+      senderID: user.uid,
+      senderPhoto: user.photoURL ?? AvaterImg,
+      recieverName: data.name,
+      recieverID: data.id,
+      recieverPhoto: data.photoURL ?? AvaterImg,
+    });
+  };
+
   return (
     <div className="bg-[#FBFBFB] px-4 pt-12 border shadow-md rounded-md">
       <h3 className="text-xl font-bold font-sans mb-5">All users</h3>
 
-      {user?.map((item, index) => (
+      {allUser?.map((item, index) => (
         <div key={index} className="flex justify-between items-center my-4">
           <div className="flex gap-5 items-center">
             <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -57,7 +70,12 @@ const AllUser = () => {
             </div>
           </div>
           <div className="">
-            <FriendsIcon />
+            <div
+              onClick={() => handleFriendReqSent(item)}
+              className="cursor-pointer"
+            >
+              <FriendsIcon />
+            </div>
           </div>
         </div>
       ))}
