@@ -1,6 +1,10 @@
 import React from "react";
 import { EmojiIcon } from "../../assets/svg/EmojiIcon";
 import { ImageIcon } from "../../assets/svg/ImageIcon";
+import AvaterImg from "../../assets/image/avater.jpg";
+import Nuture01 from "../../assets/image/nutute01.jpg";
+import Nuture02 from "../../assets/image/nutute02.jpg";
+import Nuture03 from "../../assets/image/nutute03.jpg";
 
 const SendMessage = () => {
   return (
@@ -14,7 +18,41 @@ const SendMessage = () => {
         </div>
       </div>
       <div className="border rounded-bl-md rounded-br-md">
-        <div className="h-72"></div>
+        {/* <div className="h-[500px] px-3 pt-1 pb-2 w-full overflow-y-auto">
+          <div className="mt-2">
+            <p className="w-3/5 ml-auto bg-blue-500 px-2 py-1 rounded-md max-w-fit">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa
+              deserunt velit ad debitis in voluptas perferendis fuga reiciendis
+              eius vel aliquam neque nemo, quas, rerum aspernatur mollitia
+              quaerat, obcaecati dolorem.dolor, sit amet consectetur adipisicing
+              elit. Ipsa deserunt velit ad debitis in voluptas perferendis fuga
+              reiciendis eius vel aliquam neque nemo, quas, rerum aspernatur
+              mollitia quaerat, obcaecati dolorem.
+            </p>
+          </div>
+          <div className="mt-2">
+            <p className="w-3/5 mr-auto bg-slate-300 px-2 py-1 rounded-md max-w-fit">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa
+              deserunt velit ad debitis in voluptas perferendis fuga reiciendis
+              eius vel aliquam neque nemo, quas, rerum aspernatur mollitia
+              quaerat, obcaecati dolorem.
+            </p>
+          </div>
+          <div className="mt-2 w-3/5 ml-auto overflow-hidden rounded-md max-w-fit">
+            <img
+              className="w-full h-auto object-cover"
+              src={Nuture01}
+              alt="AvaterImg"
+            />
+          </div>
+          <div className="mt-2 w-3/5 mr-auto overflow-hidden rounded-md max-w-fit">
+            <img
+              className="w-full h-auto object-cover"
+              src={Nuture02}
+              alt="AvaterImg"
+            />
+          </div>
+        </div> */}
         <div className="bg-[#F5F5F5] py-3 ">
           <div className="bg-white w-3/5 mx-auto flex justify-between items-center px-3 py-1">
             <div className="text-[#292D32] flex items-center gap-x-2 w-[12%]">

@@ -36,7 +36,7 @@ const Friends = () => {
           {friends?.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between items-center mb-3"
+              className="flex justify-between items-center mb-3 cursor-pointer"
             >
               <div className="flex gap-x-2 items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
