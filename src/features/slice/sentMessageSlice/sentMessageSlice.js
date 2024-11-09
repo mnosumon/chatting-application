@@ -8,11 +8,11 @@ export const sentMessageSlice = createSlice({
   name: "singleFriend",
   initialState,
   reducers: {
-    friendReducer: (state, actions) => {
+    friendAction: (state, actions) => {
       state.value = actions.payload;
     },
   },
 });
 
-export const { friendReducer } = sentMessageSlice.actions;
+export const { friendAction } = sentMessageSlice.actions;
 export default sentMessageSlice.reducer;

@@ -38,7 +38,7 @@ const SendMessage = () => {
               quaerat, obcaecati dolorem.
             </p>
           </div>
-          {/* <div className="mt-2 w-3/5 ml-auto overflow-hidden rounded-md max-w-fit">
+          <div className="mt-2 w-3/5 ml-auto overflow-hidden rounded-md max-w-fit">
             <img
               className="w-full h-auto object-cover"
               src={Nuture01}
@@ -51,7 +51,7 @@ const SendMessage = () => {
               src={Nuture02}
               alt="AvaterImg"
             />
-          </div> */}
+          </div>
         </div>
         <div className="bg-[#F5F5F5] py-3 ">
           <div className="bg-white w-3/5 mx-auto flex justify-between items-center px-3 py-1">

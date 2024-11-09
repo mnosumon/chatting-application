@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getDatabase, ref, onValue } from "firebase/database";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AvaterImg from "../../assets/image/avater.jpg";
+import { friendAction } from "../../features/slice/sentMessageSlice/sentMessageSlice";
 
 const Friends = () => {
   const [friends, setFriends] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
 
   const db = getDatabase();
 
@@ -28,6 +30,28 @@ const Friends = () => {
     });
   }, []);
 
+  const handleFriendSentMessage = (data) => {
+    if (user.uid === data.recieverID) {
+      dispatch(
+        friendAction({
+          status: "single",
+          name: data.senderName,
+          id: data.senderID,
+          photo: data.senderPhoto,
+        })
+      );
+    } else {
+      dispatch(
+        friendAction({
+          status: "single",
+          name: data.recieverName,
+          id: data.recieverID,
+          photo: data.recieverPhoto,
+        })
+      );
+    }
+  };
+
   return (
     <div className="mt-5">
       <div className="bg-[#FBFBFB] px-4 pt-8 border shadow-md rounded-md">
@@ -35,6 +59,7 @@ const Friends = () => {
         <div className="">
           {friends?.map((item) => (
             <div
+              onClick={() => handleFriendSentMessage(item)}
               key={item.id}
               className="flex justify-between items-center mb-3 cursor-pointer"
             >
