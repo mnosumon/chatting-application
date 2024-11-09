@@ -5,15 +5,23 @@ import AvaterImg from "../../assets/image/avater.jpg";
 import Nuture01 from "../../assets/image/nutute01.jpg";
 import Nuture02 from "../../assets/image/nutute02.jpg";
 import Nuture03 from "../../assets/image/nutute03.jpg";
+import { useSelector } from "react-redux";
 
 const SendMessage = () => {
+  const friend = useSelector((state) => state.firend.value);
+
   return (
     <div className="bg-white rounded-md shadow-md p-3">
       <div className="bg-[#2d2d2d] rounded-tl-md rounded-tr-md mt-2">
         <div className="flex items-center gap-3 py-2 ml-10">
-          <div className="w-16 h-16 rounded-full bg-white"></div>
+          <div className="w-12 h-12 rounded-full overflow-hidden">
+            <img
+              className="w-full h-full rounded-full object-cover"
+              src={friend.photo || AvaterImg}
+            />
+          </div>
           <h2 className="text-xl text-white font-bold font-serif">
-            Md Nuruddin Osman
+            {friend.name}
           </h2>
         </div>
       </div>

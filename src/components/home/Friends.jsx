@@ -7,6 +7,7 @@ import { friendAction } from "../../features/slice/sentMessageSlice/sentMessageS
 
 const Friends = () => {
   const [friends, setFriends] = useState([]);
+  const [activeFriend, setActiveFriend] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.value);
@@ -40,6 +41,15 @@ const Friends = () => {
           photo: data.senderPhoto,
         })
       );
+      localStorage.setItem(
+        "friend",
+        JSON.stringify({
+          status: "single",
+          name: data.senderName,
+          id: data.senderID,
+          photo: data.senderPhoto,
+        })
+      );
     } else {
       dispatch(
         friendAction({
@@ -49,7 +59,17 @@ const Friends = () => {
           photo: data.recieverPhoto,
         })
       );
+      localStorage.setItem(
+        "friend",
+        JSON.stringify({
+          status: "single",
+          name: data.recieverName,
+          id: data.recieverID,
+          photo: data.recieverPhoto,
+        })
+      );
     }
+    setActiveFriend(data.id);
   };
 
   return (
@@ -61,7 +81,9 @@ const Friends = () => {
             <div
               onClick={() => handleFriendSentMessage(item)}
               key={item.id}
-              className="flex justify-between items-center mb-3 cursor-pointer"
+              className={`flex justify-between items-center mb-3 rounded-md py-1 px-2 hover:bg-green-600 ${
+                location.pathname == "/message" ? "cursor-pointer" : ""
+              } ${activeFriend === item.id ? "bg-green-600" : ""}`}
             >
               <div className="flex gap-x-2 items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
