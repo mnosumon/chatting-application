@@ -11,6 +11,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { format, formatDistance, subDays } from "date-fns";
 
 const SendMessage = () => {
   const friend = useSelector((state) => state.firend.value);
@@ -107,7 +108,7 @@ const SendMessage = () => {
     scrollRef.current?.scrollIntoView({
       behavior: "smooth",
     });
-  }, friends);
+  }, [friends]);
 
   const handleEnter = (e) => {
     if (e.key == "Enter") {
@@ -136,27 +137,59 @@ const SendMessage = () => {
             ? friends?.map((item, i) => (
                 <div ref={scrollRef} key={i} className="mt-2">
                   {item.image ? (
-                    <div
-                      className={`w-3/5  overflow-hidden rounded-md max-w-fit ${
-                        user.uid === item.whoSenderId ? "ml-auto" : "mr-auto"
-                      }`}
-                    >
-                      <img
-                        className="w-full h-auto object-cover"
-                        src={item.image}
-                        alt="AvaterImg"
-                      />
+                    user.uid === item.whoSenderId ? (
+                      <div className="flex flex-col gap-y-1">
+                        <div className="w-3/5 ml-auto overflow-hidden rounded-md max-w-fit">
+                          <img
+                            className="w-full h-auto object-cover"
+                            src={item.image}
+                            alt="AvaterImg"
+                          />
+                        </div>
+                        <span className="w-3/5 ml-auto text-xs text-[#746e6e] rounded-md max-w-fit">
+                          {formatDistance(item.time, new Date(), {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-y-1">
+                        <div className="w-3/5 mr-auto overflow-hidden rounded-md max-w-fit">
+                          <img
+                            className="w-full h-auto object-cover"
+                            src={item.image}
+                            alt="AvaterImg"
+                          />
+                        </div>
+                        <span className="w-3/5 mr-auto text-xs text-[#746e6e] rounded-md max-w-fit">
+                          {formatDistance(item.time, new Date(), {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </div>
+                    )
+                  ) : user.uid === item.whoSenderId ? (
+                    <div className="flex flex-col gap-y-1 text-justify">
+                      <p className="w-3/5 px-2 ml-auto bg-blue-500 py-1 rounded-md max-w-fit">
+                        {item.message}
+                      </p>
+                      <span className="w-3/5 ml-auto text-xs text-[#746e6e] rounded-md max-w-fit">
+                        {formatDistance(item.time, new Date(), {
+                          addSuffix: true,
+                        })}
+                      </span>
                     </div>
                   ) : (
-                    <p
-                      className={`w-3/5 px-2 py-1 rounded-md max-w-fit ${
-                        user.uid === item.whoSenderId
-                          ? "ml-auto bg-blue-500"
-                          : "mr-auto bg-slate-300"
-                      }`}
-                    >
-                      {item.message}
-                    </p>
+                    <div className="flex flex-col gap-y-1">
+                      <p className="w-3/5 px-2 mr-auto bg-slate-300 py-1 rounded-md max-w-fit">
+                        {item.message}
+                      </p>
+                      <span className="w-3/5 mr-auto text-xs text-[#746e6e] rounded-md max-w-fit">
+                        {formatDistance(item.time, new Date(), {
+                          addSuffix: true,
+                        })}
+                      </span>
+                    </div>
                   )}
                 </div>
               ))

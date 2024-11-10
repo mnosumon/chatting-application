@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
     "autoprefixer": "^10.4.20",
+    "date-fns": "^4.1.0",
     "emoji-picker-react": "^4.12.0",
     "firebase": "^10.14.1",
     "formik": "^2.4.6",
