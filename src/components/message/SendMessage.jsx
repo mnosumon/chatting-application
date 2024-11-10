@@ -7,11 +7,13 @@ import Nuture02 from "../../assets/image/nutute02.jpg";
 import Nuture03 from "../../assets/image/nutute03.jpg";
 import { useSelector } from "react-redux";
 import { getDatabase, push, ref, set, onValue } from "firebase/database";
+import EmojiPicker from "emoji-picker-react";
 
 const SendMessage = () => {
   const friend = useSelector((state) => state.firend.value);
   const user = useSelector((state) => state.user.value);
   const [text, setText] = useState("");
+  const [emojiShow, setEmojiShow] = useState(false);
   const [friends, setFriends] = useState([]);
 
   const db = getDatabase();
@@ -49,6 +51,14 @@ const SendMessage = () => {
       setFriends(messageArr);
     });
   }, []);
+
+  const handleEmoji = () => {
+    setEmojiShow(!emojiShow);
+  };
+  const handleEmojiPicker = (data) => {
+    setText(data.emoji + text);
+    setEmojiShow(false);
+  };
 
   return (
     <div className="bg-white rounded-md shadow-md p-3">
@@ -102,8 +112,15 @@ const SendMessage = () => {
         <div className="bg-[#F5F5F5] py-3 ">
           <div className="bg-white w-3/5 mx-auto flex justify-between items-center px-3 py-1">
             <div className="text-[#292D32] flex items-center gap-x-2 w-[12%]">
-              <div className="cursor-pointer">
-                <EmojiIcon />
+              <div className="cursor-pointer relative">
+                <div onClick={handleEmoji} className="">
+                  <EmojiIcon />
+                </div>
+                {emojiShow && (
+                  <div className="absolute bottom-10 left-0">
+                    <EmojiPicker onEmojiClick={handleEmojiPicker} />
+                  </div>
+                )}
               </div>
               <div className="cursor-pointer">
                 <ImageIcon />
