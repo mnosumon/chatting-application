@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EmojiIcon } from "../../assets/svg/EmojiIcon";
 import { ImageIcon } from "../../assets/svg/ImageIcon";
 import AvaterImg from "../../assets/image/avater.jpg";
@@ -6,12 +6,13 @@ import Nuture01 from "../../assets/image/nutute01.jpg";
 import Nuture02 from "../../assets/image/nutute02.jpg";
 import Nuture03 from "../../assets/image/nutute03.jpg";
 import { useSelector } from "react-redux";
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase, push, ref, set, onValue } from "firebase/database";
 
 const SendMessage = () => {
   const friend = useSelector((state) => state.firend.value);
   const user = useSelector((state) => state.user.value);
   const [text, setText] = useState("");
+  const [friends, setFriends] = useState([]);
 
   const db = getDatabase();
   const date = `${new Date().getFullYear()}-${
@@ -19,16 +20,35 @@ const SendMessage = () => {
   }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 
   const handleMessageSent = () => {
-    set(push(ref(db, "message")), {
-      whoSenderNmae: user.displayName,
-      whosenderId: user.uid,
-      whoRecieverName: friend.name,
-      whoRecieverId: friend.id,
-      message: text,
-      time: date,
-    });
+    if (friend?.status === "single") {
+      set(push(ref(db, "message")), {
+        whoSenderName: user.displayName,
+        whoSenderId: user.uid,
+        whoRecieverName: friend.name,
+        whoRecieverId: friend.id,
+        message: text,
+        time: date,
+      });
+    }
     setText("");
   };
+
+  useEffect(() => {
+    const starCountRef = ref(db, "message/");
+    onValue(starCountRef, (snapshot) => {
+      const messageArr = [];
+      snapshot.forEach((item) => {
+        const data = item.val();
+        if (
+          (user.uid === data.whoSenderId && friend.id === data.whoRecieverId) ||
+          (user.uid === data.whoRecieverId && friend.id === data.whoSenderId)
+        ) {
+          messageArr.push(data);
+        }
+      });
+      setFriends(messageArr);
+    });
+  }, []);
 
   return (
     <div className="bg-white rounded-md shadow-md p-3">
@@ -47,25 +67,23 @@ const SendMessage = () => {
       </div>
       <div className="border rounded-bl-md rounded-br-md">
         <div className="h-[500px] px-3 pt-1 pb-2 w-full overflow-y-auto">
-          <div className="mt-2">
-            <p className="w-3/5 ml-auto bg-blue-500 px-2 py-1 rounded-md max-w-fit">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa
-              deserunt velit ad debitis in voluptas perferendis fuga reiciendis
-              eius vel aliquam neque nemo, quas, rerum aspernatur mollitia
-              quaerat, obcaecati dolorem.dolor, sit amet consectetur adipisicing
-              elit. Ipsa deserunt velit ad debitis in voluptas perferendis fuga
-              reiciendis eius vel aliquam neque nemo, quas, rerum aspernatur
-              mollitia quaerat, obcaecati dolorem.
-            </p>
-          </div>
-          <div className="mt-2">
-            <p className="w-3/5 mr-auto bg-slate-300 px-2 py-1 rounded-md max-w-fit">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa
-              deserunt velit ad debitis in voluptas perferendis fuga reiciendis
-              eius vel aliquam neque nemo, quas, rerum aspernatur mollitia
-              quaerat, obcaecati dolorem.
-            </p>
-          </div>
+          {friend?.status === "single"
+            ? friends.map((item) => (
+                <div key={item.id} className="mt-2">
+                  <p
+                    className={`w-3/5 px-2 py-1 rounded-md max-w-fit ${
+                      user.uid === item.whoSenderId
+                        ? "ml-auto bg-blue-500"
+                        : "mr-auto bg-slate-300"
+                    }`}
+                  >
+                    {item.message}
+                  </p>
+                </div>
+              ))
+            : ""}
+        </div>
+        {/* <div className="">
           <div className="mt-2 w-3/5 ml-auto overflow-hidden rounded-md max-w-fit">
             <img
               className="w-full h-auto object-cover"
@@ -80,7 +98,7 @@ const SendMessage = () => {
               alt="AvaterImg"
             />
           </div>
-        </div>
+        </div> */}
         <div className="bg-[#F5F5F5] py-3 ">
           <div className="bg-white w-3/5 mx-auto flex justify-between items-center px-3 py-1">
             <div className="text-[#292D32] flex items-center gap-x-2 w-[12%]">
