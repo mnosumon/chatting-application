@@ -2,9 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { EmojiIcon } from "../../assets/svg/EmojiIcon";
 import { ImageIcon } from "../../assets/svg/ImageIcon";
 import AvaterImg from "../../assets/image/avater.jpg";
-import Nuture01 from "../../assets/image/nutute01.jpg";
-import Nuture02 from "../../assets/image/nutute02.jpg";
-import Nuture03 from "../../assets/image/nutute03.jpg";
 import { useSelector } from "react-redux";
 import { getDatabase, push, ref, set, onValue } from "firebase/database";
 import EmojiPicker from "emoji-picker-react";
@@ -22,6 +19,7 @@ const SendMessage = () => {
   const [emojiShow, setEmojiShow] = useState(false);
   const [friends, setFriends] = useState([]);
   const choeseRef = useRef();
+  const scrollRef = useRef();
 
   const db = getDatabase();
   const storage = getStorage();
@@ -103,6 +101,12 @@ const SendMessage = () => {
     setEmojiShow(false);
   };
 
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, friends);
+
   return (
     <div className="bg-white rounded-md shadow-md p-3">
       <div className="bg-[#2d2d2d] rounded-tl-md rounded-tr-md mt-2">
@@ -122,7 +126,7 @@ const SendMessage = () => {
         <div className="h-[500px] px-3 pt-1 pb-2 w-full overflow-y-auto">
           {friend?.status === "single"
             ? friends?.map((item, i) => (
-                <div key={i} className="mt-2">
+                <div ref={scrollRef} key={i} className="mt-2">
                   {item.image ? (
                     <div
                       className={`w-3/5  overflow-hidden rounded-md max-w-fit ${
