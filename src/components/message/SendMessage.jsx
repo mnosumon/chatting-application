@@ -29,15 +29,17 @@ const SendMessage = () => {
   }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
 
   const handleMessageSent = () => {
-    if (friend?.status === "single") {
-      set(push(ref(db, "message")), {
-        whoSenderName: user.displayName,
-        whoSenderId: user.uid,
-        whoRecieverName: friend.name,
-        whoRecieverId: friend.id,
-        message: text,
-        time: date,
-      });
+    if (text !== "") {
+      if (friend?.status === "single") {
+        set(push(ref(db, "message")), {
+          whoSenderName: user.displayName,
+          whoSenderId: user.uid,
+          whoRecieverName: friend.name,
+          whoRecieverId: friend.id,
+          message: text,
+          time: date,
+        });
+      }
     }
     setText("");
   };
@@ -107,6 +109,12 @@ const SendMessage = () => {
     });
   }, friends);
 
+  const handleEnter = (e) => {
+    if (e.key == "Enter") {
+      handleMessageSent();
+    }
+  };
+
   return (
     <div className="bg-white rounded-md shadow-md p-3">
       <div className="bg-[#2d2d2d] rounded-tl-md rounded-tr-md mt-2">
@@ -154,22 +162,6 @@ const SendMessage = () => {
               ))
             : ""}
         </div>
-        {/* <div className="">
-          <div className="mt-2 w-3/5 ml-auto overflow-hidden rounded-md max-w-fit">
-            <img
-              className="w-full h-auto object-cover"
-              src={Nuture01}
-              alt="AvaterImg"
-            />
-          </div>
-          <div className="mt-2 w-3/5 mr-auto overflow-hidden rounded-md max-w-fit">
-            <img
-              className="w-full h-auto object-cover"
-              src={Nuture02}
-              alt="AvaterImg"
-            />
-          </div>
-        </div> */}
         <div className="bg-[#F5F5F5] py-3 ">
           <div className="bg-white w-3/5 mx-auto flex justify-between items-center px-3 py-1">
             <div className="text-[#292D32] flex items-center gap-x-2 w-[12%]">
@@ -198,6 +190,7 @@ const SendMessage = () => {
             </div>
             <div className="w-[60%]">
               <input
+                onKeyUp={handleEnter}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 type="text"
