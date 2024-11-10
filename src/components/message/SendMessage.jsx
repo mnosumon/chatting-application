@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { EmojiIcon } from "../../assets/svg/EmojiIcon";
 import { ImageIcon } from "../../assets/svg/ImageIcon";
 import AvaterImg from "../../assets/image/avater.jpg";
@@ -8,6 +8,12 @@ import Nuture03 from "../../assets/image/nutute03.jpg";
 import { useSelector } from "react-redux";
 import { getDatabase, push, ref, set, onValue } from "firebase/database";
 import EmojiPicker from "emoji-picker-react";
+import {
+  getStorage,
+  ref as Ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 const SendMessage = () => {
   const friend = useSelector((state) => state.firend.value);
@@ -15,8 +21,11 @@ const SendMessage = () => {
   const [text, setText] = useState("");
   const [emojiShow, setEmojiShow] = useState(false);
   const [friends, setFriends] = useState([]);
+  const choeseRef = useRef();
 
   const db = getDatabase();
+  const storage = getStorage();
+
   const date = `${new Date().getFullYear()}-${
     new Date().getMonth() + 1
   }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
@@ -35,6 +44,40 @@ const SendMessage = () => {
     setText("");
   };
 
+  const handleImgUpload = (e) => {
+    const choeseFile = e.target.files[0];
+    const storageRef = Ref(
+      storage,
+      `${user.displayName} = chattingAbleMedia/ ${choeseFile}`
+    );
+
+    const uploadTask = uploadBytesResumable(storageRef, choeseFile);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (friend?.status === "single") {
+            set(push(ref(db, "message")), {
+              whoSenderName: user.displayName,
+              whoSenderId: user.uid,
+              whoRecieverName: friend.name,
+              whoRecieverId: friend.id,
+              message: text,
+              image: downloadURL,
+              time: date,
+            });
+          }
+        });
+      }
+    );
+  };
+
   useEffect(() => {
     const starCountRef = ref(db, "message/");
     onValue(starCountRef, (snapshot) => {
@@ -50,7 +93,7 @@ const SendMessage = () => {
       });
       setFriends(messageArr);
     });
-  }, []);
+  }, [db, user.uid, friend.id]);
 
   const handleEmoji = () => {
     setEmojiShow(!emojiShow);
@@ -78,17 +121,31 @@ const SendMessage = () => {
       <div className="border rounded-bl-md rounded-br-md">
         <div className="h-[500px] px-3 pt-1 pb-2 w-full overflow-y-auto">
           {friend?.status === "single"
-            ? friends.map((item) => (
-                <div key={item.id} className="mt-2">
-                  <p
-                    className={`w-3/5 px-2 py-1 rounded-md max-w-fit ${
-                      user.uid === item.whoSenderId
-                        ? "ml-auto bg-blue-500"
-                        : "mr-auto bg-slate-300"
-                    }`}
-                  >
-                    {item.message}
-                  </p>
+            ? friends?.map((item, i) => (
+                <div key={i} className="mt-2">
+                  {item.image ? (
+                    <div
+                      className={`w-3/5  overflow-hidden rounded-md max-w-fit ${
+                        user.uid === item.whoSenderId ? "ml-auto" : "mr-auto"
+                      }`}
+                    >
+                      <img
+                        className="w-full h-auto object-cover"
+                        src={item.image}
+                        alt="AvaterImg"
+                      />
+                    </div>
+                  ) : (
+                    <p
+                      className={`w-3/5 px-2 py-1 rounded-md max-w-fit ${
+                        user.uid === item.whoSenderId
+                          ? "ml-auto bg-blue-500"
+                          : "mr-auto bg-slate-300"
+                      }`}
+                    >
+                      {item.message}
+                    </p>
+                  )}
                 </div>
               ))
             : ""}
@@ -122,8 +179,17 @@ const SendMessage = () => {
                   </div>
                 )}
               </div>
-              <div className="cursor-pointer">
+              <div
+                onClick={() => choeseRef.current.click()}
+                className="cursor-pointer"
+              >
                 <ImageIcon />
+                <input
+                  onChange={handleImgUpload}
+                  type="file"
+                  ref={choeseRef}
+                  hidden
+                />
               </div>
             </div>
             <div className="w-[60%]">

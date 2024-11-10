@@ -29,7 +29,7 @@ const Friends = () => {
       });
       setFriends(friendsArr);
     });
-  }, []);
+  }, [user.uid, db]);
 
   const handleFriendSentMessage = (data) => {
     if (user.uid === data.recieverID) {
