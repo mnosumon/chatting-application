@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { EmojiIcon } from "../../assets/svg/EmojiIcon";
 import { ImageIcon } from "../../assets/svg/ImageIcon";
 import AvaterImg from "../../assets/image/avater.jpg";
@@ -6,9 +6,29 @@ import Nuture01 from "../../assets/image/nutute01.jpg";
 import Nuture02 from "../../assets/image/nutute02.jpg";
 import Nuture03 from "../../assets/image/nutute03.jpg";
 import { useSelector } from "react-redux";
+import { getDatabase, push, ref, set } from "firebase/database";
 
 const SendMessage = () => {
   const friend = useSelector((state) => state.firend.value);
+  const user = useSelector((state) => state.user.value);
+  const [text, setText] = useState("");
+
+  const db = getDatabase();
+  const date = `${new Date().getFullYear()}-${
+    new Date().getMonth() + 1
+  }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
+
+  const handleMessageSent = () => {
+    set(push(ref(db, "message")), {
+      whoSenderNmae: user.displayName,
+      whosenderId: user.uid,
+      whoRecieverName: friend.name,
+      whoRecieverId: friend.id,
+      message: text,
+      time: date,
+    });
+    setText("");
+  };
 
   return (
     <div className="bg-white rounded-md shadow-md p-3">
@@ -73,11 +93,13 @@ const SendMessage = () => {
             </div>
             <div className="w-[60%]">
               <input
+                value={text}
+                onChange={(e) => setText(e.target.value)}
                 type="text"
                 className="w-full py-1 px-5 text-base text-[#000] outline-none bg-[#bdbaba] rounded-full"
               />
             </div>
-            <div className="w-[18%]">
+            <div onClick={handleMessageSent} className="w-[18%]">
               <button className="text-base font-sans py-1 px-5 bg-[#4A81D3] text-white rounded-md">
                 Send
               </button>
