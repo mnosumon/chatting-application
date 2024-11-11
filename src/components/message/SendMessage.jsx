@@ -123,7 +123,7 @@ const SendMessage = () => {
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img
               className="w-full h-full rounded-full object-cover"
-              src={friend.photo || AvaterImg}
+              src={friend?.photo || AvaterImg}
             />
           </div>
           <h2 className="text-xl text-white font-bold font-serif">
