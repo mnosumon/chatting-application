@@ -127,7 +127,7 @@ const SendMessage = () => {
             />
           </div>
           <h2 className="text-xl text-white font-bold font-serif">
-            {friend.name}
+            {friend?.name}
           </h2>
         </div>
       </div>
