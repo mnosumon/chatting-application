@@ -11,7 +11,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { format, formatDistance, subDays } from "date-fns";
+import { formatDistance } from "date-fns";
 
 const SendMessage = () => {
   const friend = useSelector((state) => state.firend.value);
@@ -94,7 +94,7 @@ const SendMessage = () => {
       });
       setFriends(messageArr);
     });
-  }, [db, user.uid, friend.id]);
+  }, [db, user.uid, friend]);
 
   const handleEmoji = () => {
     setEmojiShow(!emojiShow);
