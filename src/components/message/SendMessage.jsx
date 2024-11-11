@@ -132,7 +132,7 @@ const SendMessage = () => {
         </div>
       </div>
       <div className="border rounded-bl-md rounded-br-md">
-        <div className="h-[500px] px-3 pt-1 pb-2 w-full overflow-y-auto">
+        <div className="h-[350px] px-3 pt-1 pb-2 w-full overflow-y-auto">
           {friend?.status === "single"
             ? friends?.map((item, i) => (
                 <div ref={scrollRef} key={i} className="mt-2">

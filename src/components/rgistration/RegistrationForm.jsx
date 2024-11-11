@@ -86,8 +86,12 @@ const RegistrationForm = ({ toast }) => {
 
   return (
     <div>
-      <PrimaryHeading content="Registration form" />
-      <form onSubmit={formik.handleSubmit} action="" className="w-3/5">
+      <PrimaryHeading className="text-center" content="Registration form" />
+      <form
+        onSubmit={formik.handleSubmit}
+        action=""
+        className="w-[90%] sm:w-4/5 xl:w-3/5 mx-auto"
+      >
         <div className="mt-3">
           <input
             id="name"
@@ -149,7 +153,7 @@ const RegistrationForm = ({ toast }) => {
           </button>
         </div>
       </form>
-      <div className="mt-4">
+      <div className="mt-4 text-center">
         <p>
           Yuo have already sign up{" "}
           <Link to="/login" className="text-blue-700 cursor-pointer">
