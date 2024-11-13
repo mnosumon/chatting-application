@@ -13,6 +13,9 @@ import LoginUser from "./privetRoute/LoginUser";
 import NotLoginUser from "./privetRoute/NotLoginUser";
 import Message from "./pages/message/Message";
 import Profile from "./pages/profile/Profile";
+import AllUser from "./components/home/AllUser";
+import FriendRequest from "./components/home/FriendRequest";
+import Friends from "./components/home/Friends";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -20,9 +23,14 @@ const App = () => {
       <Route>
         <Route element={<LoginUser />}>
           <Route element={<RouteLayout />}>
-            <Route path="/" element={<Home />} />
             <Route path="/message" element={<Message />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/" element={<Home />}>
+              <Route index element={<AllUser />} />
+              <Route path="/alluser" element={<AllUser />} />
+              <Route path="/friendrequest" element={<FriendRequest />} />
+              <Route path="/sentmessage" element={<Friends />} />
+            </Route>
           </Route>
         </Route>
         <Route element={<NotLoginUser />}>

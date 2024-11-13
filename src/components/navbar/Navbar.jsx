@@ -34,6 +34,7 @@ const Navbar = () => {
   return (
     <nav className="bg-[#000] w-full py-2 relative">
       <div className="w-11/12 flex justify-around md:justify-between items-center mx-auto gap-4">
+        {/* Desktop view Desktop view Desktop view Desktop view Desktop view Desktop view */}
         <div className="flex items-center justify-between w-full md:w-auto">
           <div className="flex gap-x-3 items-center">
             <div className="w-14 h-14 md:w-20 md:h-20 rounded-full relative">
@@ -75,7 +76,7 @@ const Navbar = () => {
           <Link
             to="/"
             className={` w-12 h-12  rounded-full flex items-center justify-center cursor-pointer ${
-              location.pathname == "/"
+              location.pathname == "/" || location.pathname == "/alluser"
                 ? "bg-[#6CD0FB] text-[#FFF]"
                 : "bg-[#FFF] text-[#6CD0FB]"
             }`}
@@ -104,7 +105,7 @@ const Navbar = () => {
             Log Out
           </button>
         </div>
-        {/* Mobile View Mobile View Mobile View Mobile View */}
+        {/* Mobile view Mobile view Mobile view  Mobile view Mobile view Mobile view */}
         <div
           className={`absolute top-full w-full bg-amber-900 transition-transform duration-500 transform ${
             open ? "translate-x-0" : "-translate-x-full"
@@ -116,7 +117,10 @@ const Navbar = () => {
                 onClick={() => setOpen(false)}
                 to="/"
                 className={` w-12 h-12  rounded-full flex items-center justify-center cursor-pointer ${
-                  location.pathname == "/"
+                  location.pathname == "/" ||
+                  location.pathname == "/alluser" ||
+                  location.pathname == "/sentmessage" ||
+                  location.pathname == "/friendrequest"
                     ? "bg-[#6CD0FB] text-[#FFF]"
                     : "bg-[#FFF] text-[#6CD0FB]"
                 }`}
