@@ -103,7 +103,8 @@ const Friends = () => {
                 </h4>
               </div>
               <div>
-                {location.pathname == "/" ? (
+                {location.pathname == "/" ||
+                location.pathname == "/sentmessage" ? (
                   <button
                     onClick={() => {
                       navigate("/message");

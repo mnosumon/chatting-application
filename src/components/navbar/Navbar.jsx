@@ -107,7 +107,7 @@ const Navbar = () => {
         </div>
         {/* Mobile view Mobile view Mobile view  Mobile view Mobile view Mobile view */}
         <div
-          className={`absolute top-full w-full bg-amber-900 transition-transform duration-500 transform ${
+          className={`absolute z-50 top-full w-full bg-amber-900 transition-transform duration-500 transform ${
             open ? "translate-x-0" : "-translate-x-full"
           }`}
         >
