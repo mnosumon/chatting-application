@@ -8,7 +8,7 @@ const HomeForMobile = ({ location }) => {
     <div className="flex md:hidden">
       <div className="w-1/5 flex flex-col items-center gap-10 py-10 bg-slate-500">
         <div
-          className={`text-5xl cursor-pointer w-4/5 h-auto p-4 flex justify-center items-center rounded-full ${
+          className={`text-3xl sm:text-5xl cursor-pointer w-4/5 h-auto p-3 sm:p-4 flex justify-center items-center rounded-full ${
             location.pathname == "/" || location.pathname == "/alluser"
               ? "bg-[#6CD0FB] text-[#FFF]"
               : "bg-white text-[#60c737]"
@@ -19,7 +19,7 @@ const HomeForMobile = ({ location }) => {
           </Link>
         </div>
         <div
-          className={`text-5xl cursor-pointer w-4/5 h-auto p-4 flex justify-center items-center rounded-full ${
+          className={`text-3xl sm:text-5xl cursor-pointer w-4/5 h-auto p-3 sm:p-5 flex justify-center items-center rounded-full ${
             location.pathname == "/friendrequest"
               ? "bg-[#6CD0FB] text-[#FFF]"
               : "bg-white text-[#60c737]"
@@ -30,7 +30,7 @@ const HomeForMobile = ({ location }) => {
           </Link>
         </div>
         <div
-          className={`text-5xl cursor-pointer w-4/5 h-auto p-4 flex justify-center items-center rounded-full ${
+          className={`text-3xl sm:text-5xl cursor-pointer w-4/5 h-auto p-3 sm:p-5 flex justify-center items-center rounded-full ${
             location.pathname == "/sentmessage"
               ? "bg-[#6CD0FB] text-[#FFF]"
               : "bg-white text-[#60c737]"
@@ -41,7 +41,7 @@ const HomeForMobile = ({ location }) => {
           </Link>
         </div>
       </div>
-      <div className="md:hidden w-4/5">
+      <div className="md:hidden w-4/5 ml-3 mr-5">
         <Outlet />
       </div>
     </div>
