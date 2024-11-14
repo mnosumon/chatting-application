@@ -96,7 +96,7 @@ const AllUser = () => {
   };
 
   return (
-    <div className="bg-[#FBFBFB] px-4 pt-12 border shadow-md rounded-md">
+    <div className="bg-[#FBFBFB] px-4 md:mx-24 lg:mx-0 pt-12 border shadow-md rounded-md">
       <h3 className="text-xl font-bold font-sans mb-5">All users</h3>
 
       {allUser?.map((item, index) => (

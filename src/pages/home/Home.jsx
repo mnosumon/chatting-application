@@ -13,7 +13,7 @@ const Home = () => {
         {/* Mobile view Mobile view Mobile view  Mobile view Mobile view Mobile view */}
         <HomeForMobile location={location} />
         {/* Desktop view Desktop view Desktop view Desktop view Desktop view Desktop view */}
-        <div className="hidden  md:grid grid-cols-[1fr,3fr] gap-x-12">
+        <div className="hidden  md:grid lg:grid-cols-[1fr,3fr] lg:gap-12">
           <div className="">
             <AllUser />
           </div>
