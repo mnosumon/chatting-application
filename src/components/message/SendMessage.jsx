@@ -222,11 +222,7 @@ const SendMessage = () => {
                 />
               </div>
             </div>
-            {/* <InputWithAnimation
-              setText={setText}
-              handleEnter={handleEnter}
-              text={text}
-            /> */}
+
             <div className="w-[60%] flex justify-end">
               <input
                 onKeyUp={handleEnter}
@@ -245,6 +241,17 @@ const SendMessage = () => {
               </button>
             </div>
           </div>
+          {/* <InputWithAnimation
+            setText={setText}
+            handleEnter={handleEnter}
+            text={text}
+            handleEmojiPicker={handleEmojiPicker}
+            handleEmoji={handleEmoji}
+            emojiShow={emojiShow}
+            choeseRef={choeseRef}
+            handleImgUpload={handleImgUpload}
+            handleMessageSent={handleMessageSent}
+          /> */}
         </div>
       </div>
     </div>
