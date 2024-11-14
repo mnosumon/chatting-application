@@ -6,7 +6,7 @@ import { FadeLoader } from "react-spinners";
 const CropModal = ({ cropperRef, image, setImage, getCropData, loader }) => {
   return (
     <div className="fixed w-full h-screen flex items-center justify-center ">
-      <div className="w-2/5 bg-white p-3 relative rounded-md">
+      <div className="w-[90%] sm:w-4/5 md:w-2/5 bg-white p-3 relative rounded-md">
         <div className="w-full mb-4">
           <div className="w-24 h-24 rounded-full overflow-hidden mx-auto ">
             <div className="img-preview w-full h-full object-cover " />
