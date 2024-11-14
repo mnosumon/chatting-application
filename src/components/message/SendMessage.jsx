@@ -12,6 +12,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { formatDistance } from "date-fns";
+import InputWithAnimation from "../utilities/InputWithAnimation";
 
 const SendMessage = () => {
   const friend = useSelector((state) => state.firend.value);
@@ -195,9 +196,9 @@ const SendMessage = () => {
               ))
             : ""}
         </div>
-        <div className="bg-[#F5F5F5] py-3 ">
-          <div className="bg-white w-3/5 mx-auto flex justify-between items-center px-3 py-1">
-            <div className="text-[#292D32] flex items-center gap-x-2 w-[12%]">
+        <div className="bg-[#F5F5F5] py-3">
+          <div className="bg-white w-full xl:w-3/5 mx-auto flex justify-around items-center px-3 py-1 gap-x-3">
+            <div className="text-[#292D32] flex items-center gap-x-2 w-[22%] sm:w-[16%] md:w-[12%]">
               <div className="cursor-pointer relative">
                 <div onClick={handleEmoji} className="">
                   <EmojiIcon />
@@ -221,16 +222,24 @@ const SendMessage = () => {
                 />
               </div>
             </div>
-            <div className="w-[60%]">
+            {/* <InputWithAnimation
+              setText={setText}
+              handleEnter={handleEnter}
+              text={text}
+            /> */}
+            <div className="w-[60%] flex justify-end">
               <input
                 onKeyUp={handleEnter}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 type="text"
-                className="w-full py-1 px-5 text-base text-[#000] outline-none bg-[#bdbaba] rounded-full"
+                className="w-full py-1 px-2 md:px-5 text-base text-[#000] outline-none border bg-slate-200 rounded-full"
               />
             </div>
-            <div onClick={handleMessageSent} className="w-[18%]">
+            <div
+              onClick={handleMessageSent}
+              className="w-[28%] sm:w-[20%] md:w-[18%] flex justify-end"
+            >
               <button className="text-base font-sans py-1 px-5 bg-[#4A81D3] text-white rounded-md">
                 Send
               </button>
